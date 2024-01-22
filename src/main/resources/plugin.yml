@@ -1,0 +1,30 @@
+name: Landmarks
+version: '${version}'
+main: us.xuanxi.landmarks.Landmarks
+api-version: '1.20'
+commands:
+    landmarks:
+        description: Landmarks command
+        usage: /landmarks <new|rm|go> <name> or /landmarks ls
+        aliases: [lm]
+    go:
+        description: Go to a landmark
+        usage: /go <name>
+        permission: landmarks.go
+        aliases: [a, /]
+permissions:
+    landmarks.admin:
+        description: Gives ALL access
+        default: op
+    landmarks.new:
+        description: Gives access to the new command
+        default: op
+    landmarks.rm:
+        description: Gives access to the rm command
+        default: op
+    landmarks.ls:
+        description: Gives access to the ls command
+        default: op
+    landmarks.go:
+        description: Gives access to the go command
+        default: true
