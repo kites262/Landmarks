@@ -16,6 +16,9 @@ permissions:
     landmarks.admin:
         description: Gives ALL access
         default: op
+    landmarks.reload:
+        description: Gives access to the reload command
+        default: op
     landmarks.new:
         description: Gives access to the new command
         default: op

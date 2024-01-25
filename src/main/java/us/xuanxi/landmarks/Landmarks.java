@@ -13,8 +13,10 @@ import java.util.logging.Logger;
 public final class Landmarks extends JavaPlugin {
     private final Logger logger = this.getLogger();
     private final ConfigReader cr = new ConfigReader(this);
+
     @Override
     public void onEnable() {
+        log("Landmarks plugin by flew_kites, ready to enable.");
         // Plugin startup logic
         this.saveDefaultConfig();
 
@@ -30,6 +32,7 @@ public final class Landmarks extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        log("Saving config to file...");
         // Plugin shutdown logic
         cr.save();
         log("Landmarks plugin has been disabled!");
