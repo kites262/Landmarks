@@ -7,8 +7,9 @@ import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 import us.xuanxi.landmarks.Landmarks;
 
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Set;
+import java.util.List;
 
 public class ConfigReader {
     public static final String prefix = "landmarks.";
@@ -67,12 +68,14 @@ public class ConfigReader {
         );
     }
 
-    public Set<String> getLandmarks() {
+    public List<String> getLandmarks(){
         ConfigurationSection landmarksSection = config.getConfigurationSection("landmarks");
-        if (landmarksSection == null) {
-            return Collections.emptySet();
+        if(landmarksSection == null) {
+            return Collections.emptyList();
         } else {
-            return landmarksSection.getKeys(false);
+            List<String> list = new ArrayList<>(landmarksSection.getKeys(false));
+            Collections.sort(list);
+            return list;
         }
     }
 
