@@ -6,21 +6,13 @@ import org.bukkit.World;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 import us.xuanxi.landmarks.Landmarks;
+import us.xuanxi.landmarks.data.Finals;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class ConfigReader {
-    public static final String prefix = "landmarks.";
-    public static final String with_service = ".enabled";
-    public static final String with_location_world = ".location.world";
-    public static final String with_location_x = ".location.x";
-    public static final String with_location_z = ".location.y";
-    public static final String with_location_y = ".location.z";
-    public static final String with_location_yaw = ".location.yaw";
-    public static final String with_location_pitch = ".location.pitch";
-
     Configuration config;
     Landmarks plugin;
 
@@ -54,17 +46,17 @@ public class ConfigReader {
     }
 
     public Location getLocation(String name){
-        if(!getBoolean(prefix + name + with_service)){
+        if(!getBoolean(Finals.config_path_prefix + name + Finals.config_path_with_service)){
             return null;
         }
-        World world = Bukkit.getWorld(getString(prefix + name + with_location_world));
+        World world = Bukkit.getWorld(getString(Finals.config_path_prefix + name + Finals.config_path_with_location_world));
         return new Location(
                 world,
-                getDouble(prefix + name + with_location_x),
-                getDouble(prefix + name + with_location_y),
-                getDouble(prefix + name + with_location_z),
-                Float.parseFloat(getString(prefix + name + with_location_yaw)),
-                Float.parseFloat(getString(prefix + name + with_location_pitch))
+                getDouble(Finals.config_path_prefix + name + Finals.config_path_with_location_x),
+                getDouble(Finals.config_path_prefix + name + Finals.config_path_with_location_y),
+                getDouble(Finals.config_path_prefix + name + Finals.config_path_with_location_z),
+                Float.parseFloat(getString(Finals.config_path_prefix + name + Finals.config_path_with_location_yaw)),
+                Float.parseFloat(getString(Finals.config_path_prefix + name + Finals.config_path_with_location_pitch))
         );
     }
 
@@ -83,13 +75,13 @@ public class ConfigReader {
         if(name == null || location == null){
             return;
         }
-        setConfig(prefix + name + with_service, true);
-        setConfig(prefix + name + with_location_world, location.getWorld().getName());
-        setConfig(prefix + name + with_location_x, location.getX());
-        setConfig(prefix + name + with_location_y, location.getY());
-        setConfig(prefix + name + with_location_z, location.getZ());
-        setConfig(prefix + name + with_location_yaw, location.getYaw());
-        setConfig(prefix + name + with_location_pitch, location.getPitch());
+        setConfig(Finals.config_path_prefix + name + Finals.config_path_with_service, true);
+        setConfig(Finals.config_path_prefix + name + Finals.config_path_with_location_world, location.getWorld().getName());
+        setConfig(Finals.config_path_prefix + name + Finals.config_path_with_location_x, location.getX());
+        setConfig(Finals.config_path_prefix + name + Finals.config_path_with_location_y, location.getY());
+        setConfig(Finals.config_path_prefix + name + Finals.config_path_with_location_z, location.getZ());
+        setConfig(Finals.config_path_prefix + name + Finals.config_path_with_location_yaw, location.getYaw());
+        setConfig(Finals.config_path_prefix + name + Finals.config_path_with_location_pitch, location.getPitch());
         save();
     }
 
@@ -97,12 +89,17 @@ public class ConfigReader {
         if(name == null){
             return;
         }
-        delConfig(prefix + name);
+        delConfig(Finals.config_path_prefix + name);
         save();
     }
 
     public void save(){
         plugin.saveConfig();
+        plugin.reloadConfig();
+        config = plugin.getConfig();
+    }
+
+    public void reloadFromConfigFile(){
         plugin.reloadConfig();
         config = plugin.getConfig();
     }

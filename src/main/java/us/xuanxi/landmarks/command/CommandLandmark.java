@@ -20,6 +20,7 @@ public class CommandLandmark implements CommandExecutor, TabCompleter {
     public CommandLandmark(ConfigReader cr){
         this.cr = cr;
     }
+
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if(args.length == 2 && args[0].equals(Finals.command_new)){
@@ -30,6 +31,8 @@ public class CommandLandmark implements CommandExecutor, TabCompleter {
             lsLandmark(sender);
         }else if(args.length == 2 && args[0].equals(Finals.command_go)){
             goLandmark(sender, args[1]);
+        }else if(args.length == 1 && args[0].equals(Finals.command_reload)){
+            reloadPlugin(sender);
         }else{
             return false;
         }
@@ -52,6 +55,9 @@ public class CommandLandmark implements CommandExecutor, TabCompleter {
                 }
                 if (!PermissionChecker.without(sender, Finals.permission_command_ls)) {
                     list.add(Finals.command_ls);
+                }
+                if(!PermissionChecker.without(sender, Finals.permission_command_reload)){
+                    list.add(Finals.command_reload);
                 }
                 return list;
             } else if (args.length == 2 && args[0].equalsIgnoreCase(Finals.command_go)) {
@@ -107,5 +113,11 @@ public class CommandLandmark implements CommandExecutor, TabCompleter {
     public void goLandmark(CommandSender sender, String name){
         CommandGo cmd = new CommandGo(cr);
         cmd.goLandmark(sender, name);
+    }
+
+    public void reloadPlugin(CommandSender sender){
+        if(PermissionChecker.without(sender, Finals.permission_command_reload)) return;
+        cr.reloadFromConfigFile();
+        sender.sendMessage(Finals.msg_plugin_reload);
     }
 }
