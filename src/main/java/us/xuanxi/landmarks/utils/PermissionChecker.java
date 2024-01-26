@@ -4,7 +4,7 @@ import org.bukkit.command.CommandSender;
 import us.xuanxi.landmarks.data.Finals;
 
 public class PermissionChecker {
-    public static boolean infoHas(CommandSender sender, String permission){
+    public static boolean infoWithout(CommandSender sender, String permission){
         if(without(sender, permission)){
             sender.sendMessage(Finals.msg_no_permission);
             return true;
