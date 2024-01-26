@@ -1,6 +1,6 @@
 version: '${version}'
 landmarks:
-  example1:
+  example:
     creator: xuanxi
     location:
       world: world
