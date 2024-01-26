@@ -76,7 +76,7 @@ public class CommandLandmark implements CommandExecutor, TabCompleter {
     }
 
     public void newLandmark(CommandSender sender, String name){
-        if(PermissionChecker.infoHas(sender, Finals.permission_command_new)) return;
+        if(PermissionChecker.infoWithout(sender, Finals.permission_command_new)) return;
         if(sender instanceof Player player){
             if(cr.getLocation(name) == null){
                 sender.sendMessage(Finals.msg_landmark_created + name);
@@ -90,7 +90,7 @@ public class CommandLandmark implements CommandExecutor, TabCompleter {
     }
 
     public void rmLandmark(CommandSender sender, String name){
-        if(PermissionChecker.infoHas(sender, Finals.permission_command_rm)) return;
+        if(PermissionChecker.infoWithout(sender, Finals.permission_command_rm)) return;
         if(cr.getLocation(name) != null){
             cr.delLocation(name);
             sender.sendMessage(Finals.msg_landmark_removed + name);
@@ -124,7 +124,7 @@ public class CommandLandmark implements CommandExecutor, TabCompleter {
     }
 
     public void reloadPlugin(CommandSender sender){
-        if(PermissionChecker.infoHas(sender, Finals.permission_command_reload)) return;
+        if(PermissionChecker.infoWithout(sender, Finals.permission_command_reload)) return;
         cr.reloadFromConfigFile();
         sender.sendMessage(Finals.msg_plugin_reload);
     }
