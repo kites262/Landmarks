@@ -11,7 +11,6 @@ import us.xuanxi.landmarks.data.Finals;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 public class ConfigReader {
     Configuration config;
@@ -84,17 +83,25 @@ public class ConfigReader {
         }
     }
 
-    public void setLocation(String name, Location location){
-        if(name == null || location == null){
+    public void setLandmarkOnly(String landmarkName, Location location){
+        if(landmarkName == null || location == null){
             return;
         }
-        setConfig(Finals.config_path_prefix + name + Finals.config_path_with_location_world, location.getWorld().getName());
-        setConfig(Finals.config_path_prefix + name + Finals.config_path_with_location_x, location.getX());
-        setConfig(Finals.config_path_prefix + name + Finals.config_path_with_location_y, location.getY());
-        setConfig(Finals.config_path_prefix + name + Finals.config_path_with_location_z, location.getZ());
-        setConfig(Finals.config_path_prefix + name + Finals.config_path_with_location_yaw, location.getYaw());
-        setConfig(Finals.config_path_prefix + name + Finals.config_path_with_location_pitch, location.getPitch());
+        setConfig(Finals.config_path_prefix + landmarkName + Finals.config_path_with_location_world, location.getWorld().getName());
+        setConfig(Finals.config_path_prefix + landmarkName + Finals.config_path_with_location_x, location.getX());
+        setConfig(Finals.config_path_prefix + landmarkName + Finals.config_path_with_location_y, location.getY());
+        setConfig(Finals.config_path_prefix + landmarkName + Finals.config_path_with_location_z, location.getZ());
+        setConfig(Finals.config_path_prefix + landmarkName + Finals.config_path_with_location_yaw, location.getYaw());
+        setConfig(Finals.config_path_prefix + landmarkName + Finals.config_path_with_location_pitch, location.getPitch());
         save();
+    }
+
+    public void setLandmark(String landmarkName, Location location, String player){
+        if(landmarkName == null || location == null){
+            return;
+        }
+        setConfig(Finals.config_path_prefix + landmarkName + Finals.config_path_with_creator, player);
+        setLandmarkOnly(landmarkName, location);
     }
 
     public void delLocation(String name){

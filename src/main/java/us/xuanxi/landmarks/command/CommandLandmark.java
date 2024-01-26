@@ -77,7 +77,7 @@ public class CommandLandmark implements CommandExecutor, TabCompleter {
             }else{
                 sender.sendMessage(Finals.msg_landmark_updated + name);
             }
-            cr.setLocation(name, player.getLocation());
+            cr.setLandmark(name, player.getLocation(), sender.getName());
         }else{
             sender.sendMessage(Finals.msg_not_player);
         }
