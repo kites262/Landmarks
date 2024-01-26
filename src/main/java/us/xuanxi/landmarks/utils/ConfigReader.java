@@ -8,9 +8,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import us.xuanxi.landmarks.Landmarks;
 import us.xuanxi.landmarks.data.Finals;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class ConfigReader {
     Configuration config;
@@ -72,6 +70,10 @@ public class ConfigReader {
         }
     }
 
+    public String getLandmarkCreator(String name){
+        return getString(Finals.config_path_prefix + name + Finals.config_path_with_creator);
+    }
+
     public List<String> getLandmarks(){
         ConfigurationSection landmarksSection = config.getConfigurationSection("landmarks");
         if(landmarksSection == null) {
@@ -81,6 +83,14 @@ public class ConfigReader {
             Collections.sort(list);
             return list;
         }
+    }
+
+    public Map<String, String> getLandmarksMap(){
+        Map<String, String> map = new TreeMap<>();
+        for(String name : getLandmarks()){
+            map.put(name, getLandmarkCreator(name));
+        }
+        return map;
     }
 
     public void setLandmarkOnly(String landmarkName, Location location){

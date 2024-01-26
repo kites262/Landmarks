@@ -1,5 +1,10 @@
 package us.xuanxi.landmarks.command;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.ComponentBuilder;
+import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.event.ClickEvent;
+import net.kyori.adventure.text.event.HoverEvent;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -13,6 +18,7 @@ import us.xuanxi.landmarks.utils.PermissionChecker;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 public class CommandLandmark implements CommandExecutor, TabCompleter {
 
@@ -94,19 +100,22 @@ public class CommandLandmark implements CommandExecutor, TabCompleter {
     }
 
     public void lsLandmark(CommandSender sender){
-        if(PermissionChecker.without(sender, Finals.permission_command_ls)) return;
-        StringBuilder msg = new StringBuilder();
-        int count = 0;
-        for(String name : cr.getLandmarks()){
-            msg.append(name).append(", ");
-            count++;
+        Map<String, String> landmarksMap = cr.getLandmarksMap();
+        ComponentBuilder<TextComponent, TextComponent.Builder> cb = Component.text();
+        for(Map.Entry<String, String> entry : landmarksMap.entrySet()){
+            Component nameComponent = Component.text(entry.getKey());
+            Component creatorComponent = Component.text(entry.getValue());
+            nameComponent = nameComponent.clickEvent(
+                    ClickEvent.runCommand("/" + Finals.command_prefix + " " + Finals.command_go + " " + entry.getKey())
+            );
+
+            cb.append(nameComponent.hoverEvent(HoverEvent.showText(creatorComponent)))
+                    .append(Component.text(", "));
         }
-        if(count != 0) {
-            msg.deleteCharAt(msg.length() - 2);
-            msg.deleteCharAt(msg.length() - 1);
-        }
-        sender.sendMessage("Landmarks(" + count + "): ");
-        sender.sendMessage(msg.toString());
+
+        sender.sendPlainMessage("Landmarks( " + landmarksMap.size() + " ): ");
+        sender.sendMessage(cb.build());
+        sender.sendPlainMessage("--------------------");
     }
 
     public void goLandmark(CommandSender sender, String name){
