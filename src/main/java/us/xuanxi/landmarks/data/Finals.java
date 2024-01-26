@@ -8,6 +8,7 @@ public class Finals {
     public static final String config_path_with_location_y = ".location.z";
     public static final String config_path_with_location_yaw = ".location.yaw";
     public static final String config_path_with_location_pitch = ".location.pitch";
+    public static final String config_path_with_creator = ".creator";
 
     public static final String command_prefix = "landmarks";
     public static final String command_go = "go";
