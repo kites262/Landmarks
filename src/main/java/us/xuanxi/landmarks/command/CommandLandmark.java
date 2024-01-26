@@ -72,13 +72,12 @@ public class CommandLandmark implements CommandExecutor, TabCompleter {
     public void newLandmark(CommandSender sender, String name){
         if(PermissionChecker.without(sender, Finals.permission_command_new)) return;
         if(sender instanceof Player player){
-            if(cr.getLocation(name) != null){
-                sender.sendMessage(Finals.msg_landmark_updated + name);
-            }else{
+            if(cr.getLocation(name) == null){
                 sender.sendMessage(Finals.msg_landmark_created + name);
+            }else{
+                sender.sendMessage(Finals.msg_landmark_updated + name);
             }
             cr.setLocation(name, player.getLocation());
-
         }else{
             sender.sendMessage(Finals.msg_not_player);
         }

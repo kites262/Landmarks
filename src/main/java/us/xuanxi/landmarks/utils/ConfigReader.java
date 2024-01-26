@@ -11,6 +11,7 @@ import us.xuanxi.landmarks.data.Finals;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public class ConfigReader {
     Configuration config;
@@ -19,6 +20,10 @@ public class ConfigReader {
     public ConfigReader(Landmarks plugin) {
         this.plugin = plugin;
         this.config = plugin.getConfig();
+    }
+
+    private boolean isNull(String path){
+        return config.get(path) == null;
     }
 
     private String getString(String path){
@@ -46,18 +51,26 @@ public class ConfigReader {
     }
 
     public Location getLocation(String name){
-        if(!getBoolean(Finals.config_path_prefix + name + Finals.config_path_with_service)){
+        try{
+            if(isNull(Finals.config_path_prefix + name)){
+                return null;
+            }
+            World world = Bukkit.getWorld(getString(Finals.config_path_prefix + name + Finals.config_path_with_location_world));
+            return new Location(
+                    world,
+                    getDouble(Finals.config_path_prefix + name + Finals.config_path_with_location_x),
+                    getDouble(Finals.config_path_prefix + name + Finals.config_path_with_location_y),
+                    getDouble(Finals.config_path_prefix + name + Finals.config_path_with_location_z),
+                    Float.parseFloat(getString(Finals.config_path_prefix + name + Finals.config_path_with_location_yaw)),
+                    Float.parseFloat(getString(Finals.config_path_prefix + name + Finals.config_path_with_location_pitch))
+            );
+        }catch (NullPointerException e) {
+            getPlugin().logError("NullPointerException when getting location: " + name);
+            return null;
+        }catch (Exception e){
+            getPlugin().logError("UnknownException when getting location: " + name);
             return null;
         }
-        World world = Bukkit.getWorld(getString(Finals.config_path_prefix + name + Finals.config_path_with_location_world));
-        return new Location(
-                world,
-                getDouble(Finals.config_path_prefix + name + Finals.config_path_with_location_x),
-                getDouble(Finals.config_path_prefix + name + Finals.config_path_with_location_y),
-                getDouble(Finals.config_path_prefix + name + Finals.config_path_with_location_z),
-                Float.parseFloat(getString(Finals.config_path_prefix + name + Finals.config_path_with_location_yaw)),
-                Float.parseFloat(getString(Finals.config_path_prefix + name + Finals.config_path_with_location_pitch))
-        );
     }
 
     public List<String> getLandmarks(){
@@ -75,7 +88,6 @@ public class ConfigReader {
         if(name == null || location == null){
             return;
         }
-        setConfig(Finals.config_path_prefix + name + Finals.config_path_with_service, true);
         setConfig(Finals.config_path_prefix + name + Finals.config_path_with_location_world, location.getWorld().getName());
         setConfig(Finals.config_path_prefix + name + Finals.config_path_with_location_x, location.getX());
         setConfig(Finals.config_path_prefix + name + Finals.config_path_with_location_y, location.getY());
