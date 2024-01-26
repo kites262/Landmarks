@@ -1,7 +1,6 @@
 version: '${version}'
 landmarks:
   example1:
-    enabled: true
     location:
       world: world
       x: 0
