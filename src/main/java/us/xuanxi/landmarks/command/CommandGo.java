@@ -41,7 +41,7 @@ public class CommandGo implements CommandExecutor, TabCompleter {
     }
 
     public void goLandmark(CommandSender sender, String name){
-        if(PermissionChecker.without(sender, Finals.permission_command_go)) return;
+        if(PermissionChecker.infoHas(sender, Finals.permission_command_go)) return;
         if(sender instanceof Player player){
             if(cr.getLocation(name) != null){
                 Bukkit.getScheduler().runTaskLater(cr.getPlugin(), () -> {
