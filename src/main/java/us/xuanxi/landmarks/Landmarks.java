@@ -3,8 +3,8 @@ package us.xuanxi.landmarks;
 import org.bukkit.plugin.java.JavaPlugin;
 import us.xuanxi.landmarks.command.CommandGo;
 import us.xuanxi.landmarks.command.CommandLandmark;
-import us.xuanxi.landmarks.data.Finals;
-import us.xuanxi.landmarks.utils.ConfigReader;
+import us.xuanxi.landmarks.config.Names;
+import us.xuanxi.landmarks.service.LandmarkService;
 
 import java.util.Objects;
 import java.util.logging.Logger;
@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 
 public final class Landmarks extends JavaPlugin {
     private final Logger logger = this.getLogger();
-    private final ConfigReader cr = new ConfigReader(this);
+    private final LandmarkService lms = new LandmarkService(this);
 
     @Override
     public void onEnable() {
@@ -21,11 +21,11 @@ public final class Landmarks extends JavaPlugin {
         this.saveDefaultConfig();
 
         //register commands
-        Objects.requireNonNull(this.getCommand(Finals.command_prefix))
-                .setExecutor(new CommandLandmark(cr));
+        Objects.requireNonNull(this.getCommand(Names.command_prefix))
+                .setExecutor(new CommandLandmark(lms));
 
-        Objects.requireNonNull(this.getCommand(Finals.command_go))
-                .setExecutor(new CommandGo(cr));
+        Objects.requireNonNull(this.getCommand(Names.command_go))
+                .setExecutor(new CommandGo(lms));
 
         log("Landmarks plugin has been enabled!");
     }
@@ -34,7 +34,7 @@ public final class Landmarks extends JavaPlugin {
     public void onDisable() {
         log("Saving config to file...");
         // Plugin shutdown logic
-        cr.save();
+        lms.save();
         log("Landmarks plugin has been disabled!");
     }
 
