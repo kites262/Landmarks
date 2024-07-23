@@ -11,9 +11,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import us.xuanxi.landmarks.data.Finals;
-import us.xuanxi.landmarks.utils.ConfigReader;
-import us.xuanxi.landmarks.utils.PermissionChecker;
+import us.xuanxi.landmarks.config.Names;
+import us.xuanxi.landmarks.service.LandmarkService;
+import us.xuanxi.landmarks.service.PermissionChecker;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,22 +22,22 @@ import java.util.Map;
 
 public class CommandLandmark implements CommandExecutor, TabCompleter {
 
-    ConfigReader cr;
-    public CommandLandmark(ConfigReader cr){
-        this.cr = cr;
+    LandmarkService lms;
+    public CommandLandmark(LandmarkService lms){
+        this.lms = lms;
     }
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if(args.length == 2 && args[0].equals(Finals.command_new)){
+        if(args.length == 2 && args[0].equals(Names.command_new)){
             newLandmark(sender, args[1]);
-        }else if(args.length == 2 && args[0].equals(Finals.command_rm)) {
+        }else if(args.length == 2 && args[0].equals(Names.command_rm)) {
             rmLandmark(sender, args[1]);
-        }else if(args.length == 1 && args[0].equals(Finals.command_ls)) {
+        }else if(args.length == 1 && args[0].equals(Names.command_ls)) {
             lsLandmark(sender);
-        }else if(args.length == 2 && args[0].equals(Finals.command_go)){
+        }else if(args.length == 2 && args[0].equals(Names.command_go)){
             goLandmark(sender, args[1]);
-        }else if(args.length == 1 && args[0].equals(Finals.command_reload)){
+        }else if(args.length == 1 && args[0].equals(Names.command_reload)){
             reloadPlugin(sender);
         }else{
             return false;
@@ -47,66 +47,66 @@ public class CommandLandmark implements CommandExecutor, TabCompleter {
 
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, String[] args) {
-        if (command.getName().equalsIgnoreCase(Finals.command_prefix)) {
+        if (command.getName().equalsIgnoreCase(Names.command_prefix)) {
             if (args.length == 1) {
                 List<String> list = new ArrayList<>();
-                if (!PermissionChecker.without(sender, Finals.permission_command_new)){
-                    list.add(Finals.command_new);
+                if (!PermissionChecker.without(sender, Names.permission_command_new)){
+                    list.add(Names.command_new);
                 }
-                if (!PermissionChecker.without(sender, Finals.permission_command_rm)){
-                    list.add(Finals.command_rm);
+                if (!PermissionChecker.without(sender, Names.permission_command_rm)){
+                    list.add(Names.command_rm);
                 }
-                if (!PermissionChecker.without(sender, Finals.permission_command_go)) {
-                    list.add(Finals.command_go);
+                if (!PermissionChecker.without(sender, Names.permission_command_go)) {
+                    list.add(Names.command_go);
                 }
-                if (!PermissionChecker.without(sender, Finals.permission_command_ls)) {
-                    list.add(Finals.command_ls);
+                if (!PermissionChecker.without(sender, Names.permission_command_ls)) {
+                    list.add(Names.command_ls);
                 }
-                if(!PermissionChecker.without(sender, Finals.permission_command_reload)){
-                    list.add(Finals.command_reload);
+                if(!PermissionChecker.without(sender, Names.permission_command_reload)){
+                    list.add(Names.command_reload);
                 }
                 return list;
-            } else if (args.length == 2 && args[0].equalsIgnoreCase(Finals.command_go)) {
-                return new ArrayList<>(cr.getLandmarks());
-            } else if (args.length == 2 && args[0].equalsIgnoreCase(Finals.command_rm)) {
-                return new ArrayList<>(cr.getLandmarks());
+            } else if (args.length == 2 && args[0].equalsIgnoreCase(Names.command_go)) {
+                return new ArrayList<>(lms.getLandmarks());
+            } else if (args.length == 2 && args[0].equalsIgnoreCase(Names.command_rm)) {
+                return new ArrayList<>(lms.getLandmarks());
             }
         }
         return Collections.emptyList();
     }
 
     public void newLandmark(CommandSender sender, String name){
-        if(PermissionChecker.infoWithout(sender, Finals.permission_command_new)) return;
+        if(PermissionChecker.infoWithout(sender, Names.permission_command_new)) return;
         if(sender instanceof Player player){
-            if(cr.getLocation(name) == null){
-                sender.sendMessage(Finals.msg_landmark_created + name);
+            if(lms.getLocation(name) == null){
+                sender.sendMessage(Names.msg_landmark_created + name);
             }else{
-                sender.sendMessage(Finals.msg_landmark_updated + name);
+                sender.sendMessage(Names.msg_landmark_updated + name);
             }
-            cr.setLandmark(name, player.getLocation(), sender.getName());
+            lms.setLandmark(name, player.getLocation(), sender.getName());
         }else{
-            sender.sendMessage(Finals.msg_not_player);
+            sender.sendMessage(Names.msg_not_player);
         }
     }
 
     public void rmLandmark(CommandSender sender, String name){
-        if(PermissionChecker.infoWithout(sender, Finals.permission_command_rm)) return;
-        if(cr.getLocation(name) != null){
-            cr.delLocation(name);
-            sender.sendMessage(Finals.msg_landmark_removed + name);
+        if(PermissionChecker.infoWithout(sender, Names.permission_command_rm)) return;
+        if(lms.getLocation(name) != null){
+            lms.delLocation(name);
+            sender.sendMessage(Names.msg_landmark_removed + name);
         }else{
-            sender.sendMessage(Finals.msg_landmark_not_exist + name);
+            sender.sendMessage(Names.msg_landmark_not_exist + name);
         }
     }
 
     public void lsLandmark(CommandSender sender){
-        Map<String, String> landmarksMap = cr.getLandmarksMap();
+        Map<String, String> landmarksMap = lms.getLandmarksMap();
         ComponentBuilder<TextComponent, TextComponent.Builder> cb = Component.text();
         for(Map.Entry<String, String> entry : landmarksMap.entrySet()){
             Component nameComponent = Component.text(entry.getKey());
             Component creatorComponent = Component.text(entry.getValue());
             nameComponent = nameComponent.clickEvent(
-                    ClickEvent.runCommand("/" + Finals.command_prefix + " " + Finals.command_go + " " + entry.getKey())
+                    ClickEvent.runCommand("/" + Names.command_prefix + " " + Names.command_go + " " + entry.getKey())
             );
 
             cb.append(nameComponent.hoverEvent(HoverEvent.showText(creatorComponent)))
@@ -119,13 +119,12 @@ public class CommandLandmark implements CommandExecutor, TabCompleter {
     }
 
     public void goLandmark(CommandSender sender, String name){
-        CommandGo cmd = new CommandGo(cr);
-        cmd.goLandmark(sender, name);
+        lms.goLandmark(sender, name);
     }
 
     public void reloadPlugin(CommandSender sender){
-        if(PermissionChecker.infoWithout(sender, Finals.permission_command_reload)) return;
-        cr.reloadFromConfigFile();
-        sender.sendMessage(Finals.msg_plugin_reload);
+        if(PermissionChecker.infoWithout(sender, Names.permission_command_reload)) return;
+        lms.reloadFromConfigFile();
+        sender.sendMessage(Names.msg_plugin_reload);
     }
 }

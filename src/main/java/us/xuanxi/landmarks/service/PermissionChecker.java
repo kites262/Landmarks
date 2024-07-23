@@ -1,12 +1,12 @@
-package us.xuanxi.landmarks.utils;
+package us.xuanxi.landmarks.service;
 
 import org.bukkit.command.CommandSender;
-import us.xuanxi.landmarks.data.Finals;
+import us.xuanxi.landmarks.config.Names;
 
 public class PermissionChecker {
     public static boolean infoWithout(CommandSender sender, String permission){
         if(without(sender, permission)){
-            sender.sendMessage(Finals.msg_no_permission);
+            sender.sendMessage(Names.msg_no_permission);
             return true;
         }else{
             return false;
@@ -14,7 +14,7 @@ public class PermissionChecker {
     }
 
     public static boolean without(CommandSender sender, String permission){
-        if(sender.hasPermission(Finals.permission_admin)){
+        if(sender.hasPermission(Names.permission_admin)){
             return false;
         }
         return !sender.hasPermission(permission);

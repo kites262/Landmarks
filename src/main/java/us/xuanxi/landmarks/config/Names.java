@@ -1,6 +1,6 @@
-package us.xuanxi.landmarks.data;
+package us.xuanxi.landmarks.config;
 
-public class Finals {
+public class Names {
     public static final String config_path_prefix = "landmarks.";
     public static final String config_path_with_location_world = ".location.world";
     public static final String config_path_with_location_x = ".location.x";

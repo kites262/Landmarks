@@ -1,0 +1,11 @@
+version: '${version}'
+landmarks:
+  example:
+    creator: xuanxi
+    location:
+      world: world
+      x: 0
+      y: 0
+      z: 0
+      yaw: 0
+      pitch: 0
