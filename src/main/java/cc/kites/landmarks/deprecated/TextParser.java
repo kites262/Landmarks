@@ -1,4 +1,4 @@
-package us.xuanxi.landmarks.deprecated;
+package cc.kites.landmarks.deprecated;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.HoverEvent;

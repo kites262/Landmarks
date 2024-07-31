@@ -1,7 +1,7 @@
-package us.xuanxi.landmarks.service;
+package cc.kites.landmarks.service;
 
+import cc.kites.landmarks.config.Names;
 import org.bukkit.command.CommandSender;
-import us.xuanxi.landmarks.config.Names;
 
 public class PermissionChecker {
     public static boolean infoWithout(CommandSender sender, String permission){

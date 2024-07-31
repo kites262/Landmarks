@@ -1,29 +1,25 @@
-package us.xuanxi.landmarks.command;
+package cc.kites.landmarks.command;
 
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
 import org.jetbrains.annotations.NotNull;
-import us.xuanxi.landmarks.config.Names;
-import us.xuanxi.landmarks.service.LandmarkService;
+import cc.kites.landmarks.config.Names;
+import cc.kites.landmarks.service.LandmarkService;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class CommandGo implements CommandExecutor, TabCompleter {
-    LandmarkService lms;
+public class CommandGo extends CommandLandmark {
     public CommandGo(LandmarkService lms){
-        this.lms = lms;
+        super(lms);
     }
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if(args.length == 0) {
-            lms.goLandmark(sender, "home");
+            lms.requestTeleportLandmark(sender, "home");
         } else if(args.length == 1) {
-            lms.goLandmark(sender, args[0]);
+            lms.requestTeleportLandmark(sender, args[0]);
         }else{
             return false;
         }
@@ -33,7 +29,7 @@ public class CommandGo implements CommandExecutor, TabCompleter {
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, String[] args) {
         if (args.length == 1 && command.getName().equalsIgnoreCase(Names.command_go)) {
-            return new ArrayList<>(lms.getLandmarks());
+            return lms.filterLandmarks(args[0]);
         }
         return Collections.emptyList();
     }

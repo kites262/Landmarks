@@ -1,4 +1,4 @@
-package us.xuanxi.landmarks.config;
+package cc.kites.landmarks.config;
 
 public class Names {
     public static final String config_path_prefix = "landmarks.";
@@ -9,6 +9,7 @@ public class Names {
     public static final String config_path_with_location_yaw = ".location.yaw";
     public static final String config_path_with_location_pitch = ".location.pitch";
     public static final String config_path_with_creator = ".creator";
+    public static final String config_path_case_sensitive = "case_sensitive";
 
     public static final String command_prefix = "landmarks";
     public static final String command_go = "go";
@@ -16,12 +17,14 @@ public class Names {
     public static final String command_ls = "ls";
     public static final String command_reload = "reload";
     public static final String command_rm = "rm";
+    public static final String command_mv = "mv";
 
     public static final String permission_command_go = "landmarks.go";
     public static final String permission_command_new = "landmarks.new";
     public static final String permission_command_ls = "landmarks.ls";
     public static final String permission_command_rm = "landmarks.rm";
     public static final String permission_command_reload = "landmarks.reload";
+    public static final String permission_command_mv = "landmarks.mv";
     public static final String permission_admin = "landmarks.admin";
 
     public static final String msg_no_permission = "You do not have permission to use this command!";
@@ -30,6 +33,7 @@ public class Names {
     public static final String msg_landmark_created = "Created a new landmark: ";
     public static final String msg_landmark_updated = "Updated landmark: ";
     public static final String msg_landmark_removed = "Removed landmark: ";
+    public static final String msg_landmark_already_existed = "Landmark already exists: ";
     public static final String msg_plugin_reload = "Landmarks Plugin reloaded!";
     public static final String msg_teleported_to_landmark = "Teleported to landmark: ";
 }

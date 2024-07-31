@@ -1,6 +1,6 @@
 name: Landmarks
 version: '${version}'
-main: us.xuanxi.landmarks.Landmarks
+main: cc.kites.landmarks.Landmarks
 api-version: '1.20'
 commands:
     landmarks:
@@ -11,7 +11,15 @@ commands:
         description: Go to a landmark
         usage: /go <name>
         permission: landmarks.go
-        aliases: [a, /]
+        aliases: [a]
+    ls:
+        description: List all landmarks
+        usage: /ls
+        permission: landmarks.ls
+    new:
+        description: Create a new landmark
+        usage: /new <name>
+        permission: landmarks.new
 permissions:
     landmarks.admin:
         description: Gives ALL access
