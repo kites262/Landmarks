@@ -81,6 +81,7 @@ public class LandmarkService {
     public void requestDeleteLandmark(CommandSender sender, String name) {
         if (PermissionChecker.infoWithout(sender, Names.permission_command_rm)) return;
         if (getLandmark(name) != null) {
+            plugin.getLogger().info("Player " + sender.getName() + " deleted a landmark " + getLandmark(name));
             delLandmark(name);
             sender.sendMessage(Names.msg_landmark_removed + name);
         } else {
@@ -160,7 +161,7 @@ public class LandmarkService {
 
     private Location getLandmark(String name) {
         try {
-            if (cs.isNull(Names.config_path_prefix + name)) {
+            if (name.contains(".") || cs.isNull(Names.config_path_prefix + name)) {
                 return null;
             }
             World world = Bukkit.getWorld(cs.getString(Names.config_path_prefix + name + Names.config_path_with_location_world));

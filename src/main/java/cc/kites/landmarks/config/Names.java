@@ -35,5 +35,5 @@ public class Names {
     public static final String msg_landmark_removed = "Removed landmark: ";
     public static final String msg_landmark_already_existed = "Landmark already exists: ";
     public static final String msg_plugin_reload = "Landmarks Plugin reloaded!";
-    public static final String msg_teleported_to_landmark = "Teleported to landmark: ";
+    public static final String msg_teleported_to_landmark = "@";
 }
